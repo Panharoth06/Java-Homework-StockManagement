@@ -3,7 +3,7 @@ package model;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Product {
     private String ProductName;
 }

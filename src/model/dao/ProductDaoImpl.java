@@ -9,6 +9,7 @@ import java.util.Scanner;
 @Data
 public class ProductDaoImpl implements ProductDao {
     private int stockSize;
+    private int catalogueSize;
     private String[][] productNames;
 
     @Override
@@ -27,6 +28,7 @@ public class ProductDaoImpl implements ProductDao {
                         continue;
                     }
                     productNames[i] = new String[catalogue];
+                    this.catalogueSize = catalogue;
                     break;
                 } catch (InputMismatchException | NumberFormatException e) {
                     System.out.println("[!] Please, insert integer.");
@@ -40,30 +42,27 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void insertProduct(Product product, int stock, int catalogue) {
-        displayStocks();
-        if (isIndexValid(stock, catalogue)) {
-            productNames[stock - 1][catalogue - 1] = product.getProductName();
-            System.out.println("✅ Product is added successfully.");
-            printSpecificStocks(stock, catalogue);
-        }
+        productNames[stock - 1][catalogue - 1] = product.getProductName();
+        System.out.println("✅ Product is added successfully.");
+        printSpecificStocks(stock);
     }
 
     @Override
     public void updateProduct(Product product, int stock, int catalogue) {
-        if (isIndexValid(stock, catalogue)) {
-            productNames[stock - 1][catalogue - 1] = product.getProductName();
-            System.out.println("✅ Product is updated successfully.");
-            printSpecificStocks(stock, catalogue);
-        }
+
+        productNames[stock - 1][catalogue - 1] = product.getProductName();
+        System.out.println("✅ Product is updated successfully.");
+        printSpecificStocks(stock);
+
     }
 
     @Override
     public void deleteProduct(int stock, int catalogue) {
-        if (isIndexValid(stock, catalogue)) {
-            productNames[stock - 1][catalogue - 1] = null;
-            System.out.println("✅ Product is deleted successfully.");
-            printSpecificStocks(stock, catalogue);
-        }
+
+        productNames[stock - 1][catalogue - 1] = null;
+        System.out.println("✅ Product is deleted successfully.");
+        printSpecificStocks(stock);
+
     }
 
     @Override
@@ -79,19 +78,26 @@ public class ProductDaoImpl implements ProductDao {
                 );
             }
             System.out.println(isFulled(i) ? " - Available" : " - Not Available");
-//            System.out.println();
         }
     }
 
-    private void printSpecificStocks(int stock, int catalogue) {
-        System.out.print("Stock [" + (stock + 1) + "]: ");
-        for (int i = 0; i < catalogue; i++) {
-            System.out.print(
-                    productNames[stock - 1][i] == null || productNames[stock - 1][i].isEmpty() ?
-                            "[ " + (i + 1) + " - Empty ]"
-                            :
-                            "[ " + productNames[stock - 1][i] + " ]");
+    public void printSpecificStocks(int stock) {
+        if (stock < 1 || stock > productNames.length) {
+            System.out.println("Invalid stock number.");
+            return;
         }
+
+        int row = stock - 1;
+        System.out.print("Stock [" + stock + "]: ");
+
+        for (int i = 0; i < productNames[row].length; i++) {
+            System.out.print(
+                    productNames[row][i] == null || productNames[row][i].isEmpty()
+                            ? "[ " + (i + 1) + " - Empty ] "
+                            : "[ " + productNames[row][i] + " ] "
+            );
+        }
+        System.out.println(isFulled(row) ? "- Available" : "- Not Available");
     }
 
     private boolean isFulled(int stockIndex) {
@@ -101,10 +107,5 @@ public class ProductDaoImpl implements ProductDao {
             }
         }
         return false;
-    }
-
-
-    private boolean isIndexValid(int stock, int catalogue) {
-        return (stock >= 0 && stock < stockSize) && (catalogue >= 0 && catalogue < productNames[stock - 1].length);
     }
 }
