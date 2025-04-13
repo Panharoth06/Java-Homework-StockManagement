@@ -33,19 +33,24 @@ public class ProductServiceImpl implements ProductService {
     public void insertProduct(Product product, Scanner scanner, ProductDaoImpl productDao) {
         int stock, catalogue;
 
-        System.out.print("Stock: ");
-        for (int i = 0; i < productDao.getStockSize(); i++) {
-            System.out.print("| " + (i + 1) + " |");
-        }
-
-        System.out.println();
-
         while (true) {
+            System.out.print("Stock: ");
+            for (int i = 0; i < productDao.getStockSize(); i++) {
+                if (productDao.isFulled(i)) {
+                    System.out.print("| " + (i + 1) + " |");
+                }
+            }
+
+            System.out.println();
             try {
                 System.out.print(Color.setBlue("▶️ Insert the number of stock you want to insert: "));
                 stock = scanner.nextInt();
-                if (stock <= 0 || stock > productDao.getStockSize()) {
-                    System.out.println(Color.setYellow("⚠️ The number of stocks must be between 1 and " + productDao.getStockSize() + "."));
+                 if (stock <= productDao.getStockSize() && !productDao.isFulled(stock-1)) {
+                    System.out.println(Color.setYellow("⚠️ The Stock is already full."));
+                    continue;
+                }
+                else if (stock <= 0 || stock > productDao.getStockSize()) {
+                    System.out.println(Color.setYellow("⚠️ The number of stocks should be between 1 and " + productDao.getStockSize() + "."));
                     continue;
                 }
 
@@ -103,15 +108,21 @@ public class ProductServiceImpl implements ProductService {
         while (true) {
             System.out.print("Stock: ");
             for (int i = 0; i < productDao.getStockSize(); i++) {
-                System.out.print("| " + (i + 1) + " |");
+                if (productDao.isHasProduct(i))
+                    System.out.print("| " + (i + 1) + " |");
+                else continue;
             }
 
             System.out.println();
             try {
                 System.out.print(Color.setBlue("▶️ Insert the number of stock you want to update: "));
                 stock = scanner.nextInt();
-                if (stock <= 0 || stock > productDao.getStockSize()) {
-                    System.out.println(Color.setYellow("⚠️ The number of stocks must be between 1 and " + productDao.getStockSize() + "."));
+                if (stock <= productDao.getStockSize() && !productDao.isHasProduct(stock-1)) {
+                    System.out.println(Color.setYellow("⚠️ The Stock does not have any product yet. Please try again."));
+                    continue;
+                }
+                else if (stock <= 0 || stock > productDao.getStockSize()) {
+                    System.out.println(Color.setYellow("⚠️ The number of stocks should be between 1 and " + productDao.getStockSize() + "."));
                     continue;
                 }
 
@@ -187,15 +198,21 @@ public class ProductServiceImpl implements ProductService {
         while (true) {
             System.out.print("Stock: ");
             for (int i = 0; i < productDao.getStockSize(); i++) {
-                System.out.print("| " + (i + 1) + " |");
+                if (productDao.isHasProduct(i))
+                    System.out.print("| " + (i + 1) + " |");
+                else continue;
             }
 
             System.out.println();
             try {
                 System.out.print(Color.setBlue("▶️ Insert the number of stock you want to delete: "));
                 stock = scanner.nextInt();
-                if (stock <= 0 || stock > productDao.getStockSize()) {
-                    System.out.println(Color.setYellow("⚠️ The number of stocks must be between 1 and " + productDao.getStockSize() + "."));
+                if (stock <= productDao.getStockSize() && !productDao.isHasProduct(stock-1)) {
+                    System.out.println(Color.setYellow("⚠️ The Stock does not have any product yet. Please try again."));
+                    continue;
+                }
+                else if (stock <= 0 || stock > productDao.getStockSize()) {
+                    System.out.println(Color.setYellow("⚠️ The number of stocks should be between 1 and " + productDao.getStockSize() + "."));
                     continue;
                 }
 
@@ -236,5 +253,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void viewInsertionHistory(ProductDaoImpl productDao) {
         productDao.viewInsertionHistory();
+    }
+
+    @Override
+    public void displayStock(ProductDaoImpl productDao) {
+        productDao.displayStocks();
     }
 }

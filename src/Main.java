@@ -1,30 +1,24 @@
-import lombok.Data;
+import controller.ProductController;
 import model.Product;
 import model.dao.ProductDaoImpl;
-import model.service.ProductService;
-import model.service.ProductServiceImpl;
+import view.ProductView;
 
 import java.util.Scanner;
 
-//@Data
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ProductDaoImpl productDao = new ProductDaoImpl();
         Product product = new Product();
-        ProductService productService = new ProductServiceImpl();
+        ProductController productController = new ProductController();
+        ProductView productView = new ProductView();
 
-//        testing
-        productService.setStockCatalogue(scanner, productDao);
-        productService.insertProduct(product ,scanner, productDao);
-        productService.updateProduct(product, scanner, productDao);
-        productService.deleteProduct(product, scanner, productDao);
-        productService.viewInsertionHistory(productDao);
+        productView.App(scanner, productDao, product, productController);
+
     }
 }
 
-/* What to do next:
- * noted
- *  if the stock is fulled, don't display it to users when the insertion
- *  update & delete: only show the stock that has products
- */
+// What to do next validate on display stock (case 2)
+// Design some UI
+
+

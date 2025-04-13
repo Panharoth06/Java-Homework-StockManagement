@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class ProductDaoImpl implements ProductDao {
     private int stockSize;
     private int catalogueSize;
+
     private String[][] productNames;
     private Date[][] insertionDate;
 
@@ -42,7 +43,9 @@ public class ProductDaoImpl implements ProductDao {
             } while (true);
         }
         System.out.println("✅ Stock and Catalogue are set up successfully.");
+
         displayStocks();
+
     }
 
     @Override
@@ -50,7 +53,9 @@ public class ProductDaoImpl implements ProductDao {
         productNames[stock - 1][catalogue - 1] = product.getProductName();
         insertionDate[stock - 1][catalogue - 1] = Date.from(Instant.now());
         System.out.println("✅ Product is added successfully.");
+
         printSpecificStocks(stock);
+
     }
 
     @Override
@@ -62,7 +67,9 @@ public class ProductDaoImpl implements ProductDao {
             System.out.println("✅ Product is updated successfully.");
             break;
         }
+
         printSpecificStocks(stock);
+
     }
 
     @Override
@@ -75,6 +82,7 @@ public class ProductDaoImpl implements ProductDao {
                 System.out.println("✅ Product is deleted successfully.");
             }
         }
+
         printSpecificStocks(stock);
 
     }
@@ -88,7 +96,7 @@ public class ProductDaoImpl implements ProductDao {
                         (productNames[i][j] == null || productNames[i][j].isEmpty() ?
                                 "[ " + (j + 1) + " - Empty ]"
                                 :
-                                "[ " + productNames[i][j] + " ]")
+                                "[ " + (j + 1) + " - " + productNames[i][j] + " ]")
                 );
             }
             System.out.println(isFulled(i) ? " - Still Available" : " - Stock is fulled");
@@ -109,7 +117,6 @@ public class ProductDaoImpl implements ProductDao {
 //    helper methods
     public boolean isExisted(int stock, String name) {
         int row = stock - 1;
-//   return productNames[stock - 1][catalogue - 1] != null;
         for (int i = 0; i < productNames[row].length; i++) {
             if (productNames[row][i] == null) continue;
             else if (productNames[row][i].equalsIgnoreCase(name))
@@ -129,20 +136,31 @@ public class ProductDaoImpl implements ProductDao {
 
         for (int i = 0; i < productNames[row].length; i++) {
             System.out.print(
-                    productNames[row][i] == null || productNames[row][i].isEmpty()
-                            ? "[ " + (i + 1) + " - Empty ] "
-                            : "[ " + productNames[row][i] + " ] "
+                    productNames[row][i] == null || productNames[row][i].isEmpty() ?
+                            "[ " + (i + 1) + " - Empty ] "
+                            :
+                            "[ " + (i + 1) + " - " + productNames[row][i] + " ] "
             );
         }
         System.out.println(isFulled(row) ? "- Still Available" : "- Stock is fulled");
     }
 
-    private boolean isFulled(int stockIndex) {
-        for (int j = 0; j < productNames[stockIndex].length; j++) {
-            if (productNames[stockIndex][j] == null || productNames[stockIndex][j].isEmpty()) {
+    public boolean isFulled(int stockIndex) {
+        for (int i = 0; i < productNames[stockIndex].length; i++) {
+            if (productNames[stockIndex][i] == null || productNames[stockIndex][i].isEmpty()) {
                 return true;
             }
         }
         return false;
     }
+
+    public boolean isHasProduct(int stock) {
+        for (int i = 0; i < productNames[stock].length; i++) {
+            if (productNames[stock][i] != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

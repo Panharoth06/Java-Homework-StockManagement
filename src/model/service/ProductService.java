@@ -11,4 +11,5 @@ public interface ProductService {
     void updateProduct(Product product, Scanner scanner, ProductDaoImpl productDao);
     void deleteProduct(Product product, Scanner scanner, ProductDaoImpl productDao);
     void viewInsertionHistory(ProductDaoImpl productDao);
+    void displayStock(ProductDaoImpl productDao);
 }
