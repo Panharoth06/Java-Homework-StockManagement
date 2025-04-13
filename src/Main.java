@@ -6,7 +6,7 @@ import model.service.ProductServiceImpl;
 
 import java.util.Scanner;
 
-@Data
+//@Data
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -17,5 +17,15 @@ public class Main {
 //        testing
         productService.setStockCatalogue(scanner, productDao);
         productService.insertProduct(product ,scanner, productDao);
+        productService.insertProduct(product ,scanner, productDao);
+        productService.updateProduct(product, scanner, productDao);
+        productService.deleteProduct(product, scanner, productDao);
+        productService.viewInsertionHistory(productDao);
     }
 }
+
+/* What to do next:
+ * noted
+ *  if the stock is fulled, don't display it to users when the insertion
+ *  update & delete: only show the stock that has products
+ */

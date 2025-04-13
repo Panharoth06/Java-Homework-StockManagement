@@ -1,9 +1,8 @@
 package model;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
-//@AllArgsConstructor
 public class Product {
     private String ProductName;
 }

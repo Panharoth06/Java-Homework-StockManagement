@@ -42,7 +42,3 @@ public class Color {
         return GRAY + text + RESET;
     }
 }
-
-
-
-
