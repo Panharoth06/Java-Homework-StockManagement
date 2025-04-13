@@ -17,7 +17,6 @@ public class Main {
 //        testing
         productService.setStockCatalogue(scanner, productDao);
         productService.insertProduct(product ,scanner, productDao);
-        productService.insertProduct(product ,scanner, productDao);
         productService.updateProduct(product, scanner, productDao);
         productService.deleteProduct(product, scanner, productDao);
         productService.viewInsertionHistory(productDao);
