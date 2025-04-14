@@ -18,7 +18,11 @@ public class Main {
     }
 }
 
-// What to do next validate on display stock (case 2)
+// What to do next is validate on display stock (case 2) -> completed
 // Design some UI
+
+// If there is no insertion, when user choose view insertion history, display: "The products have not inserted yet" -> completed
+// if the catalogue already has product, user cannot use that catalogue when insert -> completed
+// validation catalogue, don't let user insert negative number - stock also (case 3) -> completed
 
 

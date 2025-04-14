@@ -23,8 +23,8 @@ public class ProductServiceImpl implements ProductService {
                 break;
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println(Color.setRed("️❌Please, insert integer."));
-                scanner.next();
-                continue;
+                scanner.nextLine();
+//                continue;
             }
         } while (true);
     }
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         while (true) {
             System.out.print("Stock: ");
             for (int i = 0; i < productDao.getStockSize(); i++) {
-                if (productDao.isFulled(i)) {
+                if (productDao.isNotFulled(i)) {
                     System.out.print("| " + (i + 1) + " |");
                 }
             }
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
             try {
                 System.out.print(Color.setBlue("▶️ Insert the number of stock you want to insert: "));
                 stock = scanner.nextInt();
-                 if (stock <= productDao.getStockSize() && !productDao.isFulled(stock-1)) {
+                 if (stock <= productDao.getStockSize() && !productDao.isNotFulled(stock-1)) {
                     System.out.println(Color.setYellow("⚠️ The Stock is already full."));
                     continue;
                 }
@@ -58,8 +58,12 @@ public class ProductServiceImpl implements ProductService {
 
                 System.out.print(Color.setBlue("▶️ Insert the catalogue number you want to insert: "));
                 catalogue = scanner.nextInt();
-                if (catalogue <= 0 || catalogue > productDao.getCatalogueSize()) {
+                if (catalogue <= 0 || catalogue > productDao.getProductNames()[stock-1].length) {
                     System.out.println(Color.setYellow("⚠️ Invalid catalogue number. Please insert a number between 1 and " + productDao.getCatalogueSize() + "."));
+                    continue;
+                }
+                if (productDao.IsCatalogueExists(stock, catalogue)) {
+                    System.out.println(Color.setYellow("⚠️ The catalogue already exists. Please choose another one."));
                     continue;
                 }
 
@@ -95,8 +99,8 @@ public class ProductServiceImpl implements ProductService {
 
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println(Color.setRed("❌ Please insert a valid integer."));
-                scanner.next();
-                continue;
+                scanner.nextLine();
+//                continue;
             }
         }
     }
@@ -110,7 +114,7 @@ public class ProductServiceImpl implements ProductService {
             for (int i = 0; i < productDao.getStockSize(); i++) {
                 if (productDao.isHasProduct(i))
                     System.out.print("| " + (i + 1) + " |");
-                else continue;
+//                else continue;
             }
 
             System.out.println();
@@ -184,8 +188,8 @@ public class ProductServiceImpl implements ProductService {
 
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println(Color.setRed("❌ Please insert a valid integer."));
-                scanner.next();
-                continue;
+                scanner.nextLine();
+//                continue;
             }
         }
 
@@ -193,14 +197,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Product product, Scanner scanner, ProductDaoImpl productDao) {
-        int stock, catalogue;
+        int stock;
 
         while (true) {
             System.out.print("Stock: ");
             for (int i = 0; i < productDao.getStockSize(); i++) {
                 if (productDao.isHasProduct(i))
                     System.out.print("| " + (i + 1) + " |");
-                else continue;
+//                else continue;
             }
 
             System.out.println();
@@ -245,8 +249,8 @@ public class ProductServiceImpl implements ProductService {
 
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println(Color.setRed("❌ Please insert a valid integer."));
-                scanner.next();
-                continue;
+                scanner.nextLine();
+//                continue;
             }
         }
     }
